@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 
 @Slf4j
 @Aspect
@@ -18,12 +19,12 @@ public class EnableOssAop {
         this.ossHandler = ossHandler;
     }
 
-    @Around(value = "@within(listener)", argNames = "listener")
+    @Before(value = "@within(listener)", argNames = "listener")
     public void enableOss(JoinPoint joinPoint, EnableOssListener listener) {
         ossOperationRoute(joinPoint.getSignature().getName(), joinPoint.getArgs(), listener.value());
     }
 
-    @Around(value = "@annotation(listener)", argNames = "listener")
+    @Before(value = "@annotation(listener)", argNames = "listener")
     public void enableOssWithMethod(JoinPoint joinPoint, EnableOssListener listener) {
         ossOperationRoute(joinPoint.getSignature().getName(), joinPoint.getArgs(), listener.value());
     }

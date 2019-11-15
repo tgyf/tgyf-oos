@@ -26,7 +26,7 @@ public class BaseOss extends AbstractConvert{
     private String message;
     /** 响应码 */
     @Builder.Default
-    private ResultCode code = ResultCode.SUCCESS;
+    private ResultCode code = ResultCode.FAILURE;
     /** 响应判断 */
     public boolean isSuccess() {
         return code == ResultCode.SUCCESS;
