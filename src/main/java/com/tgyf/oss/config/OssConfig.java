@@ -1,5 +1,6 @@
 package com.tgyf.oss.config;
 
+import com.tgyf.oss.AliyunOssProcessorImpl;
 import com.tgyf.oss.aop.EnableOssAop;
 import com.tgyf.oss.handler.OssHandler;
 import com.tgyf.oss.properties.OssExtendsProperty;
@@ -11,12 +12,16 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
+
 @Configuration
 @EnableConfigurationProperties({OssProperty.class, OssExtendsProperty.class})
 @ConditionalOnProperty(name = "tgyf.oss.enable", havingValue = "true", matchIfMissing = true)
 public class OssConfig {
-    @Autowired
+    @Resource
     private OssProperty ossProperty;
+    @Resource
+    private AliyunOssProcessorImpl aliyunOssProcessorImpl;
 
     @Bean
     @ConditionalOnProperty(name = "tgyf.oss.type", havingValue = "ALIYUN", matchIfMissing = true)
@@ -35,6 +40,7 @@ public class OssConfig {
     @ConditionalOnMissingBean
     public OssHandler exceptionHandler(OssExtendsProperty ossExtendsProperty) {
         OssHandler ossHandler = new OssHandler(ossProperty, ossExtendsProperty);
+        ossHandler.setOssProcessor(aliyunOssProcessorImpl);
         return ossHandler;
     }
 }

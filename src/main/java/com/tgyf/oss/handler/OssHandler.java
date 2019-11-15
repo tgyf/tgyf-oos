@@ -5,9 +5,9 @@ import com.tgyf.oss.constant.ResultCode;
 import com.tgyf.oss.model.BaseOss;
 import com.tgyf.oss.properties.OssExtendsProperty;
 import com.tgyf.oss.properties.OssProperty;
+import lombok.Setter;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-
+@Setter
 public class OssHandler {
     private final OssProperty ossProperty;
     private final OssExtendsProperty ossExtendsProperty;
@@ -26,12 +26,13 @@ public class OssHandler {
      */
     public void upload(String name, Object[] args) {
         BaseOss baseOss = parseArgs(args);
-        Assert.notNull(baseOss,"BaseOss can not be null,please find it in your parameter. >> ".concat(name));
+        Assert.notNull(baseOss, "BaseOss can not be null,please find it in your parameter. >> ".concat(name));
+
         String uploadUrl = ossProcessor.getUploadUrl(baseOss.getDirectory(), baseOss.getFileName());
-        if (StringUtils.hasText(uploadUrl)) {
-            baseOss.setUrl(uploadUrl);
-            baseOss.setCode(ResultCode.SUCCESS);
-        }
+        Assert.hasText(uploadUrl,"uploadUrl is null");
+
+        baseOss.setUrl(uploadUrl);
+        baseOss.setCode(ResultCode.SUCCESS);
     }
 
     /**
@@ -42,16 +43,18 @@ public class OssHandler {
      */
     public void download(String name, Object[] args) {
         BaseOss baseOss = parseArgs(args);
-        Assert.notNull(baseOss,"BaseOss can not be null,please find it in your parameter. >> ".concat(name));
+        Assert.notNull(baseOss, "BaseOss can not be null,please find it in your parameter. >> ".concat(name));
+
         String downloadUrl = ossProcessor.getDownloadUrl(baseOss.getDirectory(), baseOss.getFileName());
-        if (StringUtils.hasText(downloadUrl)) {
-            baseOss.setUrl(downloadUrl);
-            baseOss.setCode(ResultCode.SUCCESS);
-        }
+        Assert.hasText(downloadUrl,"downloadUrl is null");
+
+        baseOss.setUrl(downloadUrl);
+        baseOss.setCode(ResultCode.SUCCESS);
     }
 
     /**
      * 解析参数
+     *
      * @param args
      * @return
      */
