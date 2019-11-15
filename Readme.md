@@ -98,7 +98,9 @@ tgyf:
 
 @Component
 public class Demo {
-
+    //@EnableOssListener(value = "upload")获取上传url
+    //其他操作参见 com.tgyf.oss.constant.OssOperation
+    //Tip：需要参数且必须BaseOss或BaseOss的继承类
     @EnableOssListener(value = "download")
     public void test(BaseOss oss) {
         if (oss.isSuccess()) {
@@ -127,3 +129,9 @@ public class BasicApplicationTest {
 
 }
 ```
+
+## 相关API：
+* 阿里云oss:
+[https://www.alibabacloud.com/help/zh/doc-detail/32016.htm?spm=a2c63.p38356.b99.236.334af664GBODPY](https://www.alibabacloud.com/help/zh/doc-detail/32016.htm?spm=a2c63.p38356.b99.236.334af664GBODPY)
+* 腾讯云cos：
+[https://cloud.tencent.com/document/product/436/35217](https://cloud.tencent.com/document/product/436/35217)
