@@ -11,7 +11,7 @@ public class OssProperty {
      */
     private boolean enable = false;
     /**
-     * OSS 服务商类型，目前有三种:阿里云，腾讯云与自定义
+     * OSS 服务商类型，目前支持四种:阿里云，腾讯云，七牛云与自定义
      */
     private OssType type;
 }

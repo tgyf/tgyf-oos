@@ -1,7 +1,11 @@
 package com.tgyf.oss.aop;
 
+import com.tgyf.oss.anno.EnableOssListener;
+import com.tgyf.oss.constant.OssOperation;
 import com.tgyf.oss.handler.OssHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 @Slf4j
@@ -12,5 +16,34 @@ public class EnableOssAop {
 
     public EnableOssAop(OssHandler ossHandler) {
         this.ossHandler = ossHandler;
+    }
+
+    @Around(value = "@within(listener)", argNames = "listener")
+    public void enableOss(JoinPoint joinPoint, EnableOssListener listener) {
+        ossOperationRoute(joinPoint.getSignature().getName(), joinPoint.getArgs(), listener.value());
+    }
+
+    @Around(value = "@annotation(listener)", argNames = "listener")
+    public void enableOssWithMethod(JoinPoint joinPoint, EnableOssListener listener) {
+        ossOperationRoute(joinPoint.getSignature().getName(), joinPoint.getArgs(), listener.value());
+    }
+
+    /**
+     * @param name
+     * @param args
+     * @param value upload;download
+     */
+    private void ossOperationRoute(String name, Object[] args, String value) {
+        OssOperation ossOperation = OssOperation.getInstanceByCode(value) ;
+        switch (ossOperation) {
+            case UPLOAD:
+                ossHandler.upload(name,args);
+                break;
+            case DOWNLOAD:
+                ossHandler.download(name,args);
+                break;
+            default:
+                break;
+        }
     }
 }

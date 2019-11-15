@@ -5,6 +5,8 @@ public enum OssType {
     ALIYUN,
     /** 腾讯云 */
     TENCENT,
+    /** 七牛云 */
+    QINIU,
     /** 自定义 */
     CUSTOM;
 }
