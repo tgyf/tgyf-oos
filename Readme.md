@@ -78,3 +78,16 @@
 
 ## 操作说明
 ![配置](images/C4D18EE2-6990-4e3e-87FF-008C1A4EFCE0.png)
+
+```
+tgyf:
+  oss:
+    enable: true
+    type: aliyun
+    aliyun:
+      endpoint: oss-cn-shenzhen.aliyuncs.com
+      access-key-id: 
+      access-key-secret: 
+      bucket: 
+      signature-expire-seconds: 
+```
