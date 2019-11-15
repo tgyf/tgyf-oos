@@ -79,6 +79,7 @@
 ## 操作说明
 ![配置](images/C4D18EE2-6990-4e3e-87FF-008C1A4EFCE0.png)
 
+application.yml
 ```
 tgyf:
   oss:
