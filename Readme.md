@@ -92,3 +92,38 @@ tgyf:
       bucket: 
       signature-expire-seconds: 
 ```
+
+* 创建一个bean
+```
+
+@Component
+public class Demo {
+
+    @EnableOssListener(value = "download")
+    public void test(BaseOss oss) {
+        if (oss.isSuccess()) {
+            System.out.println("oss = " + oss.getUrl());
+        }else{
+            System.out.println("oss = " + oss);
+        }
+    }
+}
+```
+* 测试类：
+```
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class BasicApplicationTest {
+    @Resource
+    private Demo demo;
+    @Test
+    public void test() {
+        BaseOss build = BaseOss.builder()
+                .directory("test/auth-img/")
+                .fileName("2d1ae6c6e2a8405a90c4fbc3fe230b44.jpg")
+                .build();
+        demo.test(build);
+    }
+
+}
+```
