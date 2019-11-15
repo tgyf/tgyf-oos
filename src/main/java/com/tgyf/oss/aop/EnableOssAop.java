@@ -29,6 +29,7 @@ public class EnableOssAop {
     }
 
     /**
+     * oss操作路由
      * @param name
      * @param args
      * @param value upload;download
