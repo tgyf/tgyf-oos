@@ -1,6 +1,6 @@
 # 对象存储聚合工具
 ## 项目说明：
-* 对象存储聚合工具是一个基于SpringBoot极速开发框架，项目fork于：
+* 项目是一个基于SpringBoot的对象存储极速开发聚合工具，项目fork于：
 [https://gitee.com/w6513017/HDIS-Framework/tree/master/framework-oss](https://gitee.com/w6513017/HDIS-Framework/tree/master/framework-oss)
 
 * 在fork项目中做了部分修改，将原项目调用模式修改为aop注解方式并聚合了腾讯云与七牛云的对象存储，增加了redis与线程池支持。
@@ -75,3 +75,5 @@
     </dependencies>
 </project>
 ```
+
+## 操作说明
