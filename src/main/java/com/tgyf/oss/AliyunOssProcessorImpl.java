@@ -2,7 +2,10 @@ package com.tgyf.oss;
 
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.GeneratePresignedUrlRequest;
+import com.aliyun.oss.model.MatchMode;
+import com.aliyun.oss.model.PolicyConditions;
 import com.tgyf.oss.properties.AliyunOssProperty;
 import lombok.AllArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -10,6 +13,7 @@ import org.springframework.util.StringUtils;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -77,7 +81,30 @@ public class AliyunOssProcessorImpl implements AliyunOssProcessor {
      */
     @Override
     public Map<String, String> getSignature(String directory) throws UnsupportedEncodingException {
-        return null;
+        //基础数据备
+        String endpoint = aliyunOssProperty.getEndpoint();
+        String bucket = aliyunOssProperty.getBucket();
+        String dir = getDirectory(directory);
+        long expireTime = aliyunOssProperty.getSignatureExpireSeconds();
+        long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
+        Date expiration = new Date(expireEndTime);
+        //POST方式上传文件令牌准备
+        PolicyConditions policyConds = new PolicyConditions();
+        policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
+        policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
+        String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
+        byte[] binaryData = postPolicy.getBytes("utf-8");
+        String encodedPolicy = BinaryUtil.toBase64String(binaryData);
+        String postSignature = ossClient.calculatePostSignature(postPolicy);
+        //组装返回数据
+        Map<String, String> respMap = new LinkedHashMap<>();
+        respMap.put("accessId", aliyunOssProperty.getAccessKeyId());
+        respMap.put("policy", encodedPolicy);
+        respMap.put("postSignature", postSignature);
+        respMap.put("dir", dir);
+        respMap.put("host", "http://" + bucket + "." + endpoint);
+        respMap.put("expire", String.valueOf(expireEndTime / 1000));
+        return respMap;
     }
 }
 
