@@ -1,8 +1,8 @@
 package com.tgyf.oss.config;
 
 import com.aliyun.oss.OSSClient;
-import com.tgyf.oss.AliyunOssProcessor;
 import com.tgyf.oss.AliyunOssProcessorImpl;
+import com.tgyf.oss.BaseOssProcessor;
 import com.tgyf.oss.handler.OssHandler;
 import com.tgyf.oss.properties.AliyunOssProperty;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @ConditionalOnProperty(value = "tgyf.oss.type", havingValue = "ALIYUN")
 @AutoConfigureAfter({ OssConfig.class })
 @ConditionalOnBean(OssHandler.class)
-@ConditionalOnMissingBean({ AliyunOssProcessor.class })
+@ConditionalOnMissingBean({ BaseOssProcessor.class })
 @EnableConfigurationProperties({ AliyunOssProperty.class })
 public class AliyunOssConfig {
     @Resource

@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @AllArgsConstructor
-public class AliyunOssProcessorImpl implements AliyunOssProcessor {
+public class AliyunOssProcessorImpl implements BaseOssProcessor {
     private OSSClient ossClient;
     private AliyunOssProperty aliyunOssProperty;
 

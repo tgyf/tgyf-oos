@@ -20,6 +20,8 @@ public class BaseOss extends AbstractConvert{
     /** 文件名称 */
     @NotBlank(message = "fileName can not be null.please find it in your parameter.")
     private String fileName;
+    /** 文件地址 */
+    private String directory;
     /** 响应信息 */
     private String message;
     /** 响应码 */
