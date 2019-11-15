@@ -42,14 +42,14 @@ public class AliyunOssProcessorImpl implements BaseOssProcessor {
      */
     @Override
     public String getUploadUrl(String directory, String fileName) {
-        //基础数据备
+        //基础数据准备
         String bucket = aliyunOssProperty.getBucket();
         String dir = getDirectory(directory);
         long expireTime = aliyunOssProperty.getSignatureExpireSeconds();
         long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
         Date expiration = new Date(expireEndTime);
         //生成签名数据
-        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, dir + fileName, HttpMethod.POST);
+        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, dir .concat(fileName), HttpMethod.POST);
         request.setExpiration(expiration);
         URL signedUrl = ossClient.generatePresignedUrl(request);
         return signedUrl.toString();
@@ -63,14 +63,14 @@ public class AliyunOssProcessorImpl implements BaseOssProcessor {
      */
     @Override
     public String getDownloadUrl(String directory, String fileName) {
-        //基础数据备
+        //基础数据准备
         String bucket = aliyunOssProperty.getBucket();
         String dir = getDirectory(directory);
         long expireTime = aliyunOssProperty.getSignatureExpireSeconds();
         long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
         Date expiration = new Date(expireEndTime);
         //生成签名数据
-        URL signedUrl = ossClient.generatePresignedUrl(bucket, dir + fileName, expiration);
+        URL signedUrl = ossClient.generatePresignedUrl(bucket, dir .concat(fileName) , expiration);
         return signedUrl.toString();
     }
 
@@ -81,7 +81,7 @@ public class AliyunOssProcessorImpl implements BaseOssProcessor {
      */
     @Override
     public Map<String, String> getSignature(String directory) throws UnsupportedEncodingException {
-        //基础数据备
+        //基础数据准备
         String endpoint = aliyunOssProperty.getEndpoint();
         String bucket = aliyunOssProperty.getBucket();
         String dir = getDirectory(directory);
